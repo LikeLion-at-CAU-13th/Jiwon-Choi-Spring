@@ -41,4 +41,16 @@ public class Member {
     public void useDeposit(int money) {
         this.deposit -= money;
     }
+    //18주차 추가 - 생성자에만 빌더를 붙이는 경우
+    @Builder
+    public Member(String name, String address, String email, String phoneNumber,
+                  Role role, Boolean isAdmin, Integer deposit) {
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.isAdmin = isAdmin;
+        this.deposit = deposit;
+    }
 }
