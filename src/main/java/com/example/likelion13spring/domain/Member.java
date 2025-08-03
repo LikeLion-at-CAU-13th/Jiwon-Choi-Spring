@@ -23,6 +23,9 @@ public class Member {
     private String email;
     private String phoneNumber;
 
+    //18주차 과제 - 1. Member 엔티티에 age 필드 추가
+    private Integer age;
+
     @Enumerated(EnumType.STRING)
     private Role role; // 판매자면 SELLER, 구매자면 BUYER
 
@@ -43,12 +46,14 @@ public class Member {
     }
     //18주차 추가 - 생성자에만 빌더를 붙이는 경우
     @Builder
-    public Member(String name, String address, String email, String phoneNumber,
+    public Member(String name, String address, String email, String phoneNumber, Integer age,
                   Role role, Boolean isAdmin, Integer deposit) {
         this.name = name;
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        //18주차 과제 - 1. Member 엔티티에 age 필드 추가
+        this.age = age;
         this.role = role;
         this.isAdmin = isAdmin;
         this.deposit = deposit;
