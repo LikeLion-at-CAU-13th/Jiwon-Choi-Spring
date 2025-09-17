@@ -1,0 +1,39 @@
+package com.example.likelion13spring.service;
+
+import com.example.likelion13spring.domain.Member;
+import com.example.likelion13spring.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class MemberService {
+    private final MemberRepository memberRepository;
+
+    public Page<Member> getMembersByPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        return memberRepository.findAll(pageable);
+    }
+
+    //18주차 과제 1 - 나이 20이상, 이름 오름차순, 페이징
+    public Page<Member> getAdultMembersSortedByName(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        return memberRepository.findByAgeGreaterThanEqualOrderByNameAsc(20, pageable);
+    }
+    //18주차 과제 2.1 - 이름이 특정 값으로 시작, 페이징, 이름 오름차순
+    public Page<Member> getMembersByNamePrefix(String prefix, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        return memberRepository.findByNameStartsWithOrderByNameAsc(prefix, pageable);
+    }
+    //18주차 과제 2.2 - 이름이 특정 값으로 시작 - 리스트 사용한 경우
+    public List<Member> getMembersByNamePrefix(String prefix) {
+        return memberRepository.findByNameStartsWithOrderByNameAsc(prefix);
+    }
+
+}
