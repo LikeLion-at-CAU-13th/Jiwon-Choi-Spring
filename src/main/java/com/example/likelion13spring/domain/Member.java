@@ -1,13 +1,15 @@
 package com.example.likelion13spring.domain;
 
 //
+
 import com.example.likelion13spring.enums.Role;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -57,5 +59,10 @@ public class Member {
         this.role = role;
         this.isAdmin = isAdmin;
         this.deposit = deposit;
+    }
+
+    // 19주차 crud
+    public boolean isSeller() {
+        return Role.SELLER.equals(this.role);
     }
 }
