@@ -44,7 +44,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(id, dto));
     }
 
-    // 특정 상품 삭제 - 이것도 body가 필요함
+    // 특정 상품 삭제 - 이것도 body가 필요함 (아직 로그인 전이니까 임시로! 토큰을 쓸 수 없으니까)
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id,
                                                 @RequestBody ProductDeleteRequestDto dto) {
