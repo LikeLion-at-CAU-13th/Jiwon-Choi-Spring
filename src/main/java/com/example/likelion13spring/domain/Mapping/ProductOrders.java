@@ -3,10 +3,7 @@ package com.example.likelion13spring.domain.Mapping;
 import com.example.likelion13spring.domain.Orders;
 import com.example.likelion13spring.domain.Product;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
@@ -23,6 +20,7 @@ public class ProductOrders {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Orders orders;
