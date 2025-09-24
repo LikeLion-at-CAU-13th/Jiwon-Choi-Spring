@@ -20,4 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     //18주차 과제 2.2 - 이름이 주어진 값으로 시작하는 경우만 필터링하려면? 리스트 사용하면 되나?
     List<Member> findByNameStartsWithOrderByNameAsc(String prefix);
 
-} //Spring Data JPA가 자동으로 인식해서 내부적으로 JPQL 쿼리를 생성해준다!
+    // 25 - 이름 중복 검사 쿼리
+    boolean existsByName(String name);
+
+} //Spring Data JPA가// 자동으로 인식해서 내부적으로 JPQL 쿼리를 생성해준다!

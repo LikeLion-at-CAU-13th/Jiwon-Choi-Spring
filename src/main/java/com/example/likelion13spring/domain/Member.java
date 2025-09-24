@@ -25,6 +25,9 @@ public class Member {
     private String email;
     private String phoneNumber;
 
+    // create로 바꿔서 실행...? @@ 뭐더라
+    private String password;
+
     //18주차 과제 - 1. Member 엔티티에 age 필드 추가
     private Integer age;
 
@@ -48,7 +51,7 @@ public class Member {
     }
     //18주차 추가 - 생성자에만 빌더를 붙이는 경우
     @Builder
-    public Member(String name, String address, String email, String phoneNumber, Integer age,
+    public Member(String name, String address, String email, String phoneNumber, String password, Integer age,
                   Role role, Boolean isAdmin, Integer deposit) {
         this.name = name;
         this.address = address;
@@ -56,6 +59,8 @@ public class Member {
         this.phoneNumber = phoneNumber;
         //18주차 과제 - 1. Member 엔티티에 age 필드 추가
         this.age = age;
+        // password 추가
+        this.password = password;
         this.role = role;
         this.isAdmin = isAdmin;
         this.deposit = deposit;
