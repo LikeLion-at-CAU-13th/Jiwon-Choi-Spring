@@ -25,7 +25,7 @@ public class Member {
     private String email;
     private String phoneNumber;
 
-    // create로 바꿔서 실행...? @@ 뭐더라 <- 이 뒤에 hibernate ddl-auto 를 update로 다시 바꿔야하는듯?
+    // create로 바꿔서 실행. 그 뒤에 hibernate ddl-auto 를 update로
     private String password;
 
     //18주차 과제 - 1. Member 엔티티에 age 필드 추가
