@@ -44,7 +44,8 @@ public class MemberService {
     public void join(JoinRequestDto joinRequestDto) {
         // 해당 name이 이미 존재하는 경우
         if (memberRepository.existsByName(joinRequestDto.getName())) {
-            return; // 나중에는 예외 처리 @@
+            // 25주차 과제 - 이름 중복 예외처리
+            throw new IllegalStateException("이미 존재하는 이름입니다.");
         }
 
         // 유저 객체 생성
