@@ -1,10 +1,10 @@
 package com.example.likelion13spring.config;
 
+import com.example.likelion13spring.service.CustomOAuth2UserService;
 import com.example.likelion13spring.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,6 +21,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService; // UserDetailsService DI. 의존성 주입
+    private final CustomOAuth2UserService customOAuth2UserService; // week26 추가
 
     private static void corsAllow(CorsConfigurer<HttpSecurity> corsConfigurer) {
         corsConfigurer.configurationSource(request -> {
@@ -42,16 +43,21 @@ public class SecurityConfig {
         http
                 .cors((SecurityConfig::corsAllow)) //CORS 설정
                 .csrf(AbstractHttpConfigurer::disable) //csrf 공격 방지 비활성화 <- REST API는 HTTP 형식을 따라서 무상태(세션, 쿠키에 의존하지 않음)라서 ㄱㅊ
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/join", "/login").permitAll() // join, login으로 오는 것(회원가입, 로그인)은 모두 허용 <- 로그인 전에도 사용가능
+//                        .requestMatchers("/**").authenticated()) // 나머지는 인증된 사용자만 허용 <- 나머지는 로그인해야 사용가능
+//                .formLogin(Customizer.withDefaults()) //이거 디폴트로 사용하려면 로그인을 name을 username? 으로 해둬야 함 @@ 뭐지 이건
+//                .logout(Customizer.withDefaults())
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/join", "/login").permitAll() // join, login으로 오는 것(회원가입, 로그인)은 모두 허용 <- 로그인 전에도 사용가능
-                        .requestMatchers("/**").authenticated()) // 나머지는 인증된 사용자만 허용 <- 나머지는 로그인해야 사용가능
-                .formLogin(Customizer.withDefaults()) //이거 디폴트로 사용하려면 로그인을 name을 username? 으로 해둬야 함 @@ 뭐지 이건
-                //.formLogin(form -> form
-                //    .usernameParameter("name")    // 로그인 아이디 파라미터명을 'name'으로 변경
-                //    .passwordParameter("password") // 비밀번호 파라미터명은 기본값 'password'
-                //    .permitAll()                  // 로그인 폼 경로는 인증 없이 접근 허용
-                //) 이렇게 바꿔야 하는 듯...?
-                .logout(Customizer.withDefaults())
+                    .requestMatchers("/join", "/login",
+                        "/oauth2/**", "/login/oauth2/**",
+                        "/h2-console/**", "/error").permitAll()
+                    .anyRequest().authenticated())
+                    .oauth2Login(oauth -> oauth
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                    )
                 .userDetailsService(customUserDetailsService)
         ;
         return http.build();

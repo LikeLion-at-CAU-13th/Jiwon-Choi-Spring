@@ -39,6 +39,9 @@ dependencies {
 
     //25 spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //26 OAuth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
