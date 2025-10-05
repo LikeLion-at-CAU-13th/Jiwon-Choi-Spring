@@ -20,7 +20,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
 
-    @Transactional //아래 2개(getAllProducts, getProductById)에는 이 어노테이션 붙이지 않았음 <- 언제 붙이는거지@@
+    @Transactional //아래 2개(getAllProducts, getProductById)에는 이 어노테이션 붙이지 않았음
     public ProductResponseDto createProduct(ProductRequestDto dto) {
 
         Member member = memberRepository.findById(dto.getMemberId())
@@ -50,7 +50,7 @@ public class ProductService {
         return ProductResponseDto.fromEntity(product);
     }
 
-    @Transactional //지금 post, 수정에는 이 어노테이션이 붙었음!! @@
+    @Transactional //post, 수정에는 이 어노테이션이 붙었음!!
     public ProductResponseDto updateProduct(Long productId, ProductUpdateRequestDto dto) {
         // 판매자 조회
         Member member = memberRepository.findById(dto.getMemberId())
@@ -71,7 +71,7 @@ public class ProductService {
         return ProductResponseDto.fromEntity(product);
     }
 
-    //삭제 - @@ 이것도 어노테이션
+    //삭제
     @Transactional
     public void deleteProduct(Long productId, ProductDeleteRequestDto dto) {
         // 판매자 조회 - 삭제하려는 걸 올린 판매자가 삭제 시도중인지를 확인

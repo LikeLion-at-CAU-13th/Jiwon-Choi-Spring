@@ -18,7 +18,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping //<- post를 쓸 것임 & 각각의 crud에 대한 매핑 후 추가 경로 지정...?@@설명 추가하기
+    @PostMapping //<- post를 쓸 것임 & 각각의 crud에 대한 매핑 후 추가 경로 지정
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto dto) {
         //@RequestBody <- ProductRequestDto의 구조대로 넣어야 함
         return ResponseEntity.ok(productService.createProduct(dto));

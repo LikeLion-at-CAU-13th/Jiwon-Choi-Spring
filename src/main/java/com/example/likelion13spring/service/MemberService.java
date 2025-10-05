@@ -1,12 +1,14 @@
 package com.example.likelion13spring.service;
 
 import com.example.likelion13spring.domain.Member;
+import com.example.likelion13spring.dto.request.JoinRequestDto;
 import com.example.likelion13spring.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +36,23 @@ public class MemberService {
     //18주차 과제 2.2 - 이름이 특정 값으로 시작 - 리스트 사용한 경우
     public List<Member> getMembersByNamePrefix(String prefix) {
         return memberRepository.findByNameStartsWithOrderByNameAsc(prefix);
+    }
+
+    // 25주차 - 비밀번호 인코더 DI(생성자 주입)
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public void join(JoinRequestDto joinRequestDto) {
+        // 해당 name이 이미 존재하는 경우
+        if (memberRepository.existsByName(joinRequestDto.getName())) {
+            // 25주차 과제 - 이름 중복 예외처리
+            throw new IllegalStateException("이미 존재하는 이름입니다.");
+        }
+
+        // 유저 객체 생성
+        Member member = joinRequestDto.toEntity(bCryptPasswordEncoder);
+
+        // 유저 정보 저장
+        memberRepository.save(member);
     }
 
 }
