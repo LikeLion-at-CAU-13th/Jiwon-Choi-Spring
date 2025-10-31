@@ -55,4 +55,18 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    //week27 jwt - 로그인 로직
+    public Member login(JoinRequestDto joinRequestDto) {
+        //repository에서 동일한 이름이 있는지 확인하고, 존재하지 않는다면 존재하지 않는 사용자임을 반환
+        Member member = memberRepository.findByName(joinRequestDto.getName())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        //비밀번호 일치하는지 확인 <- matches 함수 사용
+        if (!bCryptPasswordEncoder.matches(joinRequestDto.getPassword(), member.getPassword())) {
+            return null;
+        }
+
+        return member;
+    }
+
 }
