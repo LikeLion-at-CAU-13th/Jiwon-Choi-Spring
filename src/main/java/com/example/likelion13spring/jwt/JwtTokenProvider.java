@@ -21,9 +21,11 @@ public class JwtTokenProvider {
     private static final Long ACCESS_TOKEN_EXPIRATION_TIME = 1000L * 60;
     // REFRESH_TOKEN : 7일
     private static final Long REFRESH_TOKEN_EXPIRATION_TIME = 1000L * 60 * 60 * 24 * 7;
-    private final CustomUserDetailsService customUserDetailsService;
+
     @Value("${jwt.secret}")
     private String JWT_SECRET;
+
+    private final CustomUserDetailsService customUserDetailsService;
 
     // access token 생성하는 함수 - username으로 가져옴
     public String generateAccessToken(String username) {

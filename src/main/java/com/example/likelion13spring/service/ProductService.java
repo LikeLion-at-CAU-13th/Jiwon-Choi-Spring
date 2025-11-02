@@ -90,5 +90,26 @@ public class ProductService {
         // 삭제
         productRepository.delete(product);
     }
+
+    //27주차 과제 - 해당 이름의 seller가 등록한 상품 가져오기
+    public List<ProductResponseDto> getMyProducts(String name) {
+        Member seller = memberRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));
+
+        if (!seller.isSeller()) {
+            throw new IllegalStateException("해당 사용자는 판매자가 아닙니다.");
+        } //TODO 이유를 모르겠는데 이거 동작 안 함
+
+        List<Product> products = productRepository.findBySeller(seller);
+
+        if (products.isEmpty()) {
+            throw new IllegalStateException("판매자가 등록한 상품이 없습니다.");
+        } //TODO 동작안함
+
+        return products.stream()
+                .map(ProductResponseDto::fromEntity)
+                .toList();
+    }
+
 }
 

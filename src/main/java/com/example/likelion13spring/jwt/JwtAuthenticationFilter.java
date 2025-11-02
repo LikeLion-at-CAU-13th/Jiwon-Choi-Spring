@@ -15,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.example.likelion13spring.jwt.JwtValidationType.VALID_JWT;
+
 //요청 헤더에서 Authentication 토큰을 꺼냄 -> 유효하면 MemberAuthentication 생성하고 SecurityHolder에 저장함
 @Component
 @Slf4j
@@ -33,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String token = getJwtFromRequest(request);
             //위에서 받아온 토큰이 유효한지 확인함. 유효성 검사
             JwtValidationType jwtValidationType = jwtTokenProvider.validateToken(token);
-            if (jwtValidationType == JwtValidationType.VALID_JWT) {
+            if (jwtValidationType == VALID_JWT) {
                 //jwtValidationType이 잘 가져와 졌다면 유저네임을 추출함(프로바이더에서 생성했던 access token으로 유저네임을 반환함)
                 // 이 때 토큰을 넣어줌
                 String username = jwtTokenProvider.getUsernameFromAccessToken(token);
