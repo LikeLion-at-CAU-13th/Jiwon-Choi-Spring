@@ -7,6 +7,8 @@ import com.example.likelion13spring.dto.response.ProductResponseDto;
 import com.example.likelion13spring.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +30,15 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    //27주차 과제 - 내가 올린 상품 목록 조회
+    @GetMapping("/mine")
+    public ResponseEntity<List<ProductResponseDto>> getMyProducts() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        return ResponseEntity.ok(productService.getMyProducts(username));
     }
 
     // 특정 상품 조회
