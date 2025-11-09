@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: deployment
 #  datasource:
 #    url: jdbc:h2:tcp://localhost/~/testdb # 메모리 내 데이터베이스 URL, 동시접속을 위해 TCP 모드로 접속
 #    driver-class-name: org.h2.Driver # H2 드라이버 클래스
@@ -22,19 +24,18 @@ spring:
   # 추가
   config:
     import: optional:application-secret.yml
-  profiles:
-    active: deployment
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: GOOGLE_CLIENT_ID
-            client-secret: GOOGLE_CLIENT_SECRET
-            scope:
-              - email
-              - profile
-            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
+
+security:
+  oauth2:
+    client:
+      registration:
+        google:
+          client-id: ${google.client-id}
+          client-secret: ${google.client-secret}
+          scope:
+            - email
+            - profile
+          redirect-uri: "http://localhost:8080/login/oauth2/code/google"
 
 jwt:
-  secret: vjzV2Ddwnw0xSniZtDcROzqx3DpdMzjd1XeyGywa3YIPXnwmbTUtsTJa6zKGKKlC1+Pz2szcnl+DUccvRCfAtnXYavDQ+vTzFIxTfoA9dyJwHrex2W10j+Od5RGkL4OZwDmy2Kt7f3Crym37ihcu6NvZEBVbp7nKQOkWIo6OJ7JckWIGAcZaNHopMVJLyZkSR+ZR8IoGJ7aakWrr8dBPpu525ifQJjgTnIpk+SlC+KmSasQCaFEbRsHy+ZfluhnSF8yfnTS7tG5Tv8vZKpm48kUFIhPyC2eExncwo0JNCh3cnNc8V0wWSai7lZimSALLPAgJyswNoY9fqOTnWrsDmQ==
+  secret: ${jwt.secret}
